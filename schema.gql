@@ -1,0 +1,251 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CampaignDto {
+  _id: ID!
+  campaignName: String!
+  owner: UserDto!
+  assets: [AssetDto!]!
+  status: String
+  totalDuration: Float
+  preferences: [String!]
+  modifiedAt: DateTime
+  createdAt: DateTime
+  deployWhenApproved: Boolean
+  monthlyImpressionTarget: Float!
+  maxBudget: Float
+  raiseBudgetWithImpressionTarget: Boolean
+  price: Float!
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ShareObject {
+  driver: Float!
+  adswift: Float!
+  carRental: Float!
+}
+
+type ChannelDto {
+  _id: ID!
+  channelId: String!
+  channelName: String!
+  owner: UserDto
+  resolution: String!
+  channelType: String!
+  campaigns: [CampaignDto!]
+  deviceModel: String!
+  thumbnailUrl: String
+  shares: ShareObject!
+  location: String
+  locationDetails: String
+  modifiedAt: DateTime
+  createdAt: DateTime
+}
+
+type UserDto {
+  _id: ID!
+
+  """username"""
+  userSub: String!
+
+  """email"""
+  email: String!
+
+  """profilename"""
+  profileName: String!
+
+  """profileUrl"""
+  profileUrl: String!
+
+  """roles"""
+  roles: [String!]!
+
+  """assetId"""
+  assetStorageUsed: Float!
+  campaigns: [CampaignDto!]!
+  assets: [AssetDto!]!
+  channels: [ChannelDto!]!
+  modifiedAt: DateTime
+  createdAt: DateTime
+}
+
+type AssetDto {
+  _id: ID!
+  assetName: String!
+  owner: UserDto!
+  duration: Float
+  fileSize: Float!
+  fileType: String!
+  fileUrl: String!
+  modifiedAt: DateTime
+  createdAt: DateTime
+}
+
+type Query {
+  getUser(args: FindUserDto!): UserDto!
+  user: [UserDto!]!
+  getCampaign(args: FindByIdDto!): CampaignDto!
+  campaign: [CampaignDto!]!
+  getCampaignForChannel(args: getCampaignForChannelDto!): [CampaignDto!]!
+  getAsset(args: FindByIdDto!): AssetDto!
+  asset: [AssetDto!]!
+  getChannel(args: FindByIdDto!): ChannelDto!
+  channel: [ChannelDto!]!
+  getChannelRevenue(args: getChannelRevenueDto!): [ChannelDto!]!
+}
+
+input FindUserDto {
+  _id: ID
+  email: String
+  userSub: String
+}
+
+input FindByIdDto {
+  _id: ID!
+}
+
+input getCampaignForChannelDto {
+  channelId: ID!
+  startTime: DateTime!
+  endTime: DateTime!
+}
+
+input getChannelRevenueDto {
+  channelId: ID!
+  startTime: DateTime!
+  endTime: DateTime!
+  for: String!
+}
+
+type Mutation {
+  createUser(input: CreateUserDto!): UserDto!
+  deleteUser(args: FindUserDto!): UserDto!
+  editUser(args: EditUserDto!): UserDto!
+  createCampaign(input: CreateCampaignDto!): CampaignDto!
+  deleteCampaign(args: FindByIdDto!): CampaignDto!
+  editCampaign(args: EditCampaignDto!): CampaignDto!
+  createAsset(input: CreateAssetDto!): AssetDto!
+  deleteAsset(args: FindByIdDto!): AssetDto!
+  editAsset(args: EditAssetDto!): AssetDto!
+  createChannel(input: CreateChannelDto!): ChannelDto!
+  deleteChannel(args: FindByIdDto!): ChannelDto!
+  editChannel(args: EditChannelDto!): ChannelDto!
+}
+
+input CreateUserDto {
+  userSub: String!
+  email: String!
+  profileName: String
+  profileUrl: String
+  roles: [String!]!
+  assetStorageUsed: Float
+  campaigns: [String!]
+  assets: [String!]
+  channels: [String!]
+  modifiedAt: DateTime
+  createdAt: DateTime
+}
+
+input EditUserDto {
+  _id: ID!
+  profileName: String
+  profileUrl: String
+  roles: [String!]
+  modifiedAt: DateTime
+}
+
+input CreateCampaignDto {
+  campaignName: String!
+  owner: String!
+  assets: [String!]
+  status: String
+  totalDuration: Float
+  preferences: [String!]
+  modifiedAt: DateTime
+  createdAt: DateTime
+  deployWhenApproved: Boolean
+  monthlyImpressionTarget: Float!
+  maxBudget: Float
+  raiseBudgetWithImpressionTarget: Boolean
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+input EditCampaignDto {
+  _id: ID!
+  campaignName: String
+  assets: [String!]
+  status: String
+  totalDuration: Float
+  preferences: [String!]
+  modifiedAt: DateTime
+  deployWhenApproved: Boolean
+  monthlyImpressionTarget: Float
+  maxBudget: Float
+  raiseBudgetWithImpressionTarget: Boolean
+  startDate: DateTime
+  endDate: DateTime
+}
+
+input CreateAssetDto {
+  assetName: String!
+  owner: String!
+  duration: Float!
+  fileSize: Float!
+  fileType: String!
+  fileUrl: String!
+  modifiedAt: DateTime
+  createdAt: DateTime
+}
+
+input EditAssetDto {
+  _id: ID!
+  assetName: String
+  duration: Float
+  modifiedAt: DateTime
+}
+
+input CreateChannelDto {
+  channelName: String!
+  channelId: String!
+  owner: String
+  resolution: String!
+  deviceCredentials: String!
+  channelType: String!
+  campaigns: [String!]
+  thumbnailUrl: String
+  shares: ShareInput
+  location: String
+  locationDetails: String
+  modifiedAt: DateTime
+  createdAt: DateTime
+}
+
+input ShareInput {
+  driver: Float!
+  adswift: Float!
+  carRental: Float!
+}
+
+input EditChannelDto {
+  _id: ID!
+  channelId: String!
+  channelName: String
+  owner: String
+  resolution: String
+  deviceCredentials: String
+  channelType: String
+  campaigns: [String!]
+  thumbnailUrl: String
+  location: String
+  shares: ShareInput
+  locationDetails: String
+  modifiedAt: DateTime
+}
